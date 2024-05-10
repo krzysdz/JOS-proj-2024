@@ -6,10 +6,10 @@
 module top (
     input clk,
     input ir,
-    output [0:6] display_0,
-    output [0:6] display_1,
-    output [0:6] display_2,
-    output [0:6] display_3,
+    output [6:0] display_0,
+    output [6:0] display_1,
+    output [6:0] display_2,
+    output [6:0] display_3,
     output [9:0] leds
 );
     reg         new_cmd;
