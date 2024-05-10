@@ -1,4 +1,5 @@
 `timescale 1ps/1ps
+`default_nettype none
 `include "ir_receiver.v"
 `include "led_mgr.v"
 `include "command_display.v"

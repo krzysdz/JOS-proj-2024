@@ -48,15 +48,15 @@ module led_mgr #(
                 CMD_ON:  leds <= leds | led_mask;
                 CMD_SHL: casex (d)
                     SHIFT_ROT: leds <= {leds[8:0], leds[9]};
-                    SHIFT_C0: leds <= {leds[8:0], 1'b0};
+                    SHIFT_C0: leds <= leds << 1;
                     SHIFT_C1: leds <= {leds[8:0], 1'b1};
-                    default: leds <= {leds[8:0], 1'b0};
+                    default: leds <= leds << 1;
                 endcase
                 CMD_SHR: casex (d)
                     SHIFT_ROT: leds <= {leds[0], leds[9:1]};
-                    SHIFT_C0: leds <= {1'b0, leds[9:1]};
+                    SHIFT_C0: leds <= leds >> 1;
                     SHIFT_C1: leds <= {1'b1, leds[9:1]};
-                    default: leds <= {1'b0, leds[9:1]};
+                    default: leds <= leds >> 1;
                 endcase
                 CMD_TGL: leds <= leds ^ led_mask;
                 CMD_RST: leds <= 0;
