@@ -1,6 +1,10 @@
 `ifndef IR_RECEIVER_V
 `define IR_RECEIVER_V
 
+/////////////////////////////////////////////////////////////////////
+// REMEMBER: ir is LOW on signal, pulled-up when nothing detected! //
+/////////////////////////////////////////////////////////////////////
+
 module ir_receiver #(
     parameter integer BASE_PULSE_WIDTH = 30000
 ) (
@@ -33,6 +37,7 @@ module ir_receiver #(
         case (state)
             S_IDLE:
                 if (ir == 0) begin
+                    // Signal detected, switch to start sequence detection
                     state <= S_START;
                     pulse_time <= 0;
                 end
@@ -40,39 +45,46 @@ module ir_receiver #(
                 if (ir == 0)
                     pulse_time <= pulse_time + 1;
                 else if (pulse_time >= BASE4_MIN && pulse_time <= BASE4_MAX) begin
+                    // Correct length of start signal, reset received bit count and check pause length
                     pulse_time <= 0;
                     ready_bits <= 0;
-                    data <= 0;
                     state <= S_RCV_PAUSE;
                 end else
+                    // Signal disappeared, but it was too short/long, switch back to idle
                     state <= S_IDLE;
             S_RCV_PAUSE:
                 if (pulse_time > BASE2_MAX) begin
+                    // Waiting long enough to switch to idle, set data_rdy if 12 bits were received
                     state <= S_IDLE;
                     data_rdy <= ready_bits == 4'd12;
                 end else if (ir)
                     pulse_time <= pulse_time + 1;
                 else if (pulse_time >= BASE_MIN && pulse_time <= BASE_MAX) begin
+                    // Got signal after expected pause, start receiving the next bit
                     pulse_time <= 0;
                     state <= S_RCV_BIT;
                 end else
+                    // Got signal after incorrect pause period, back to idle
                     state <= S_IDLE;
             S_RCV_BIT:
                 if (ir == 0)
                     pulse_time <= pulse_time + 1;
                 else if (pulse_time >= BASE_MIN && pulse_time <= BASE_MAX) begin
+                    // Signal length indicates bit "0", save it, reset data_rdy, and wait the pause
                     data_rdy <= 0;
                     data <= {data[10:0], 1'b0};
                     ready_bits <= ready_bits + 1;
                     pulse_time <= 0;
                     state <= S_RCV_PAUSE;
                 end else if (pulse_time >= BASE2_MIN && pulse_time <= BASE2_MAX) begin
+                    // Signal length indicates bit "1", save it, reset data_rdy, and wait the pause
                     data_rdy <= 0;
                     data <= {data[10:0], 1'b1};
                     ready_bits <= ready_bits + 1;
                     pulse_time <= 0;
                     state <= S_RCV_PAUSE;
                 end else
+                    // Signal length did not match 0 or 1, go back to idle
                     state <= S_IDLE;
             default: state <= S_IDLE;
         endcase
