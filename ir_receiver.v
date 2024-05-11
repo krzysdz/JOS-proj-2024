@@ -75,14 +75,14 @@ module ir_receiver #(
                 else if (pulse_time >= BASE_MIN && pulse_time <= BASE_MAX) begin
                     // Signal length indicates bit "0", save it, reset data_rdy, and wait the pause
                     data_rdy <= 0;
-                    data <= {data[10:0], 1'b0};
+                    data <= {1'b0, data[11:1]};
                     ready_bits <= ready_bits + 1;
                     pulse_time <= 0;
                     state <= S_RCV_PAUSE;
                 end else if (pulse_time >= BASE2_MIN && pulse_time <= BASE2_MAX) begin
                     // Signal length indicates bit "1", save it, reset data_rdy, and wait the pause
                     data_rdy <= 0;
-                    data <= {data[10:0], 1'b1};
+                    data <= {1'b1, data[11:1]};
                     ready_bits <= ready_bits + 1;
                     pulse_time <= 0;
                     state <= S_RCV_PAUSE;
