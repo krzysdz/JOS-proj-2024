@@ -4,11 +4,11 @@
 
 module command_display (
     input[11:0] cmd_buf,
-    // output[0:6] displays[3:0],
-    output[0:6] display_0,
-    output[0:6] display_1,
-    output[0:6] display_2,
-    output[0:6] display_3
+    // output[6:0] displays[3:0],
+    output[6:0] display_0,
+    output[6:0] display_1,
+    output[6:0] display_2,
+    output[6:0] display_3
 );
     wire[4:0] address;
     wire[6:0] command;
