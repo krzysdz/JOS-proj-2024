@@ -6,7 +6,11 @@
 /////////////////////////////////////////////////////////////////////
 
 module ir_receiver #(
-    parameter integer BASE_PULSE_WIDTH = 30000
+    parameter integer BASE_PULSE_WIDTH = 30000,
+    // > In general all IR equipment is forgiving and operates with in a timing tolerance of +/- 10%.
+    // Barry V. Gordon, "Learned IR Code Display Format" (Version 3/1/99)
+    // https://web.archive.org/web/20220315074837/http://the-gordons.net/homepage/DownLoad.html
+    parameter real ERROR_MARGIN = 0.1 // 10% by default, since apparently it's the typical value
 ) (
     input clk,
     input ir,
@@ -15,19 +19,18 @@ module ir_receiver #(
 );
     `include "clog2_function.vh"
 
-    localparam integer COUNTER_WIDTH = clog2(BASE_PULSE_WIDTH * 101 * 4 / 100);
     localparam S_IDLE      = 2'b00;
     localparam S_START     = 2'b01;
     localparam S_RCV_PAUSE = 2'b10;
     localparam S_RCV_BIT   = 2'b11;
 
-    // Allow for 1% deviation from the expected time
-    localparam integer BASE_MIN = $rtoi(BASE_PULSE_WIDTH * 0.99);
-    localparam integer BASE_MAX = $rtoi(BASE_PULSE_WIDTH * 1.01);
+    localparam integer BASE_MIN = $rtoi(BASE_PULSE_WIDTH * (1.0 - ERROR_MARGIN));
+    localparam integer BASE_MAX = $rtoi(BASE_PULSE_WIDTH * (1.0 + ERROR_MARGIN));
     localparam integer BASE2_MIN = BASE_MIN * 2;
     localparam integer BASE2_MAX = BASE_MAX * 2;
     localparam integer BASE4_MIN = BASE_MIN * 4;
     localparam integer BASE4_MAX = BASE_MAX * 4;
+    localparam integer COUNTER_WIDTH = clog2(BASE4_MAX);
 
     reg[1:0] state;
     reg[COUNTER_WIDTH-1:0] pulse_time;
