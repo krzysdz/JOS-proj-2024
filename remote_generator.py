@@ -194,7 +194,7 @@ def signal_to_pronto(f: int, data: list[int]) -> str:
         x >= 0 and x <= 0xFFFF for x in data
     ), "every pronto word must be 16-bit unsigned integer"
     data_str = " ".join(f"{x:0>4x}" for x in data)
-    return f"0000 {f:0>4x} {len(data):0>4x} 0000 {data_str}"
+    return f"0000 {f:0>4x} {len(data)//2:0>4x} 0000 {data_str}"
 
 
 def command_to_sirc(pulse_count: int, addr: int, cmd: int) -> list[int]:
@@ -340,11 +340,11 @@ def generate_buttons(f: int, pulse_count: int, addr: int) -> list[Button]:
     )
     keyboard_layout = [(x + 4, y) for x, y in keyboard_layout]
     start_id, buttons_off = buttons_keyboard(
-        f, pulse_count, addr, CMD_OFF, start_id, keyboard_layout, fg=IconColour.RED
+        f, pulse_count, addr, CMD_OFF, start_id, keyboard_layout, fg=IconColour.WHITE, bg=BackgroundColour.BG_RED
     )
     keyboard_layout = [(x + 4, y) for x, y in keyboard_layout]
     start_id, buttons_on = buttons_keyboard(
-        f, pulse_count, addr, CMD_ON, start_id, keyboard_layout, fg=IconColour.GREEN
+        f, pulse_count, addr, CMD_ON, start_id, keyboard_layout, fg=IconColour.WHITE, bg=BackgroundColour.BG_GREEN
     )
     start_id, buttons_left = buttons_shift(
         f, pulse_count, addr, start_id, "L", [(1, 0), (2, 0), (3, 0)]
