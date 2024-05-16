@@ -28,21 +28,24 @@ module led_mgr #(
 
     assign {address, op, d} = cmd_buf;
 
+    always @(d) begin
+        case (d)
+            4'd0: led_mask <= 10'b0000000001;
+            4'd1: led_mask <= 10'b0000000010;
+            4'd2: led_mask <= 10'b0000000100;
+            4'd3: led_mask <= 10'b0000001000;
+            4'd4: led_mask <= 10'b0000010000;
+            4'd5: led_mask <= 10'b0000100000;
+            4'd6: led_mask <= 10'b0001000000;
+            4'd7: led_mask <= 10'b0010000000;
+            4'd8: led_mask <= 10'b0100000000;
+            4'd9: led_mask <= 10'b1000000000;
+            default: led_mask <= 0;
+        endcase
+    end
+
     always @(posedge clk) begin
         if (new_cmd && address == DEV_ADDR) begin
-            case (d)
-                4'd0: led_mask <= 10'b0000000001;
-                4'd1: led_mask <= 10'b0000000010;
-                4'd2: led_mask <= 10'b0000000100;
-                4'd3: led_mask <= 10'b0000001000;
-                4'd4: led_mask <= 10'b0000010000;
-                4'd5: led_mask <= 10'b0000100000;
-                4'd6: led_mask <= 10'b0001000000;
-                4'd7: led_mask <= 10'b0010000000;
-                4'd8: led_mask <= 10'b0100000000;
-                4'd9: led_mask <= 10'b1000000000;
-                default: led_mask <= 0;
-            endcase
             case (op)
                 CMD_OFF: leds <= leds & ~led_mask;
                 CMD_ON:  leds <= leds | led_mask;
