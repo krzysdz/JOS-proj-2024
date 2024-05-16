@@ -16,6 +16,11 @@ module ir_receiver #(
     input ir,
     output reg[11:0] data,
     output reg data_rdy
+`ifdef DEBUG
+    ,
+    output [3:0] st,
+    output [3:0] rb
+`endif
 );
     `include "clog2_function.vh"
 
@@ -35,6 +40,11 @@ module ir_receiver #(
     reg[1:0] state;
     reg[COUNTER_WIDTH-1:0] pulse_time;
     reg[3:0] ready_bits;
+
+`ifdef DEBUG
+    assign st = {2'b0, state};
+    assign rb = ready_bits;
+`endif
 
     always @(posedge clk) begin
         case (state)
