@@ -172,5 +172,11 @@ simulation/
 c5_pin_model_dump.txt
 *.bak
 *.qws
+*.rpt
+*.summary
+*.jdi
+*.pin
+*.sld
+*.sof
 
 *.vqm
