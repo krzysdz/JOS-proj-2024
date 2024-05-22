@@ -178,5 +178,3 @@ c5_pin_model_dump.txt
 *.pin
 *.sld
 *.sof
-
-*.vqm
