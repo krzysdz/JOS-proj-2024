@@ -13,7 +13,7 @@ module ir_receiver #(
     parameter real ERROR_MARGIN = 0.1 // 10% by default, since apparently it's the typical value
 ) (
     input clk,
-    input ir,
+    input ir_in,
     output reg[11:0] data,
     output reg data_rdy
 `ifdef DEBUG
@@ -29,14 +29,15 @@ module ir_receiver #(
     localparam S_RCV_PAUSE = 2'b10;
     localparam S_RCV_BIT   = 2'b11;
 
-    localparam integer BASE_MIN = $rtoi(BASE_PULSE_WIDTH * (1.0 - ERROR_MARGIN));
-    localparam integer BASE_MAX = $rtoi(BASE_PULSE_WIDTH * (1.0 + ERROR_MARGIN));
+    localparam integer BASE_MIN = BASE_PULSE_WIDTH * (1.0 - ERROR_MARGIN);
+    localparam integer BASE_MAX = BASE_PULSE_WIDTH * (1.0 + ERROR_MARGIN);
     localparam integer BASE2_MIN = BASE_MIN * 2;
     localparam integer BASE2_MAX = BASE_MAX * 2;
     localparam integer BASE4_MIN = BASE_MIN * 4;
     localparam integer BASE4_MAX = BASE_MAX * 4;
     localparam integer COUNTER_WIDTH = clog2(BASE4_MAX);
 
+    reg ir;
     reg[1:0] state;
     reg[COUNTER_WIDTH-1:0] pulse_time;
     reg[3:0] ready_bits;
@@ -45,6 +46,11 @@ module ir_receiver #(
     assign st = {2'b0, state};
     assign rb = ready_bits;
 `endif
+
+    always @(posedge clk) begin
+        // Synchronize the input with clock
+        ir <= ir_in;
+    end
 
     always @(posedge clk) begin
         case (state)

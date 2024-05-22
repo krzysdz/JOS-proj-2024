@@ -36,7 +36,7 @@ module top (
 
     ir_receiver receiver (
         .clk(clk),
-        .ir(ir),
+        .ir_in(ir),
         .data(out_data),
         .data_rdy(out_data_rdy)
 `ifdef DEBUG
