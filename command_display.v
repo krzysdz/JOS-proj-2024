@@ -17,7 +17,7 @@ module command_display (
 
     hex_disp hex_addr_h(.data({3'b000, address[4]}), .seg(display_0));
     hex_disp hex_addr_l(.data(address[3:0]), .seg(display_1));
-    hex_disp hax_cmd_h(.data({1'b0, command[6:4]}), .seg(display_2));
-    hex_disp hax_cmd_l(.data(command[3:0]), .seg(display_3));
+    hex_disp hex_cmd_h(.data({1'b0, command[6:4]}), .seg(display_2));
+    hex_disp hex_cmd_l(.data(command[3:0]), .seg(display_3));
 endmodule
 `endif
