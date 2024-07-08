@@ -13,7 +13,7 @@ led_mgr_tb.new_cmd
 -
 @22
 led_mgr_tb.UUT.address[4:0]
-@2029
+@2028
 ^1 ./led_mgr_cmd.gtkw
 led_mgr_tb.UUT.op[2:0]
 @28

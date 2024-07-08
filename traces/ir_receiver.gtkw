@@ -1,0 +1,19 @@
+[dumpfile] "../out/ir_receiver_tb.vcd"
+[savefile] "./ir_receiver.gtkw"
+[timestart] 0
+@28
+ir_receiver_tb.clk
+ir_receiver_tb.ir
+ir_receiver_tb.data[11:0]
+ir_receiver_tb.ready
+@200
+-
+@2028
+^1 ./ir_receiver_state.gtkw
+ir_receiver_tb.UUT.state[1:0]
+@24
+ir_receiver_tb.UUT.pulse_time[17:0]
+@24
+ir_receiver_tb.UUT.ready_bits[3:0]
+[pattern_trace] 1
+[pattern_trace] 0
