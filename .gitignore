@@ -163,6 +163,8 @@ cython_debug/
 
 .vscode/
 top
+out/
+target/
 
 # Quartus files
 db/

@@ -1,0 +1,22 @@
+[dumpfile] "../out/led_mgr_tb.vcd"
+[savefile] "./led_mgr.gtkw"
+[timestart] 0
+@28
+led_mgr_tb.clk
+@4022
+^>1 ./cmd_decoder/target/release/cmd_decoder
+led_mgr_tb.cmd[11:0]
+@28
+led_mgr_tb.leds[9:0]
+led_mgr_tb.new_cmd
+@200
+-
+@22
+led_mgr_tb.UUT.address[4:0]
+@2029
+^1 ./led_mgr_cmd.gtkw
+led_mgr_tb.UUT.op[2:0]
+@28
+led_mgr_tb.UUT.d[3:0]
+[pattern_trace] 1
+[pattern_trace] 0
