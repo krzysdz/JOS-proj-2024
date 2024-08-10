@@ -1,7 +1,7 @@
 `timescale 1ps/1ps
 `default_nettype none
 
-`define DEBUG
+// `define DEBUG
 
 `include "ir_receiver.v"
 `include "led_mgr.v"
