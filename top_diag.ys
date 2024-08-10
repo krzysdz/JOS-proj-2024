@@ -1,0 +1,5 @@
+read_verilog top.v
+hierarchy -check
+proc; opt; fsm; opt; memory; opt
+opt -full
+show -width -colors 6 -format svg -prefix top top
