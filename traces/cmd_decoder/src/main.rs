@@ -10,8 +10,8 @@ fn process_line(line: &str) {
             return;
         }
     };
-    let addr_bits = full_cmd >> 7 & 0x1F;
-    let cmd_bits = full_cmd >> 4 & 7;
+    let addr_bits = (full_cmd >> 7) & 0x1F;
+    let cmd_bits = (full_cmd >> 4) & 7;
     let data_bits = full_cmd & 0xF;
 
     print!("{addr_bits:#X}: ");
@@ -27,7 +27,7 @@ fn process_line(line: &str) {
             } else {
                 println!("SHL w/0")
             }
-        },
+        }
         0b011 => {
             if data_bits & 0b1000 != 0 {
                 println!("ROR")
@@ -36,12 +36,12 @@ fn process_line(line: &str) {
             } else {
                 println!("SHR w/0")
             }
-        },
+        }
         0b100 => println!("OFF {data_bits}"),
         0b101 => println!("ON {data_bits}"),
         0b110 => println!("ALL OFF"),
         0b111 => println!("ALL ON"),
-        _ => panic!("Impossible value")
+        _ => panic!("Impossible value"),
     }
     io::stdout().flush().unwrap();
 }
