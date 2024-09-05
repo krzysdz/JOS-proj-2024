@@ -165,6 +165,8 @@ cython_debug/
 top
 out/
 target/
+tmp/
+*.aux
 
 # Quartus files
 db/
