@@ -330,7 +330,8 @@ Wykres czasowy testu widoczny jest na rysunku \ref{fig:tb_led}. `cmd` pokazuje z
 Logi wyświetlają wysyłane komendy oraz stan po ich odebraniu.
 
 ```console
-$ vvp .\out\led_mgr_tb
+$ iverilog -o out/led_mgr_tb led_mgr_tb.v
+$ vvp out/led_mgr_tb
 VCD info: dumpfile out/led_mgr_tb.vcd opened for output.
 0: xxxxxxxxxx
 All on
@@ -378,6 +379,7 @@ Testy tego modułu obejmują transmisję jednej 12-bitowej ramki (`0xF0D`, binar
 Logi prezentują zmiany sygnałów `ready` i `data` w trakcie transmisji.
 
 ```console
+$ iverilog -o out/ir_receiver_tb ir_receiver_tb.v
 $ vvp out/ir_receiver_tb
 VCD info: dumpfile out/ir_receiver_tb.vcd opened for output.
 0: (x) WAIT  xxxxxxxxxxxx
