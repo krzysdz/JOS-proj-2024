@@ -5,7 +5,7 @@
 title: Języki Opisu Sprzętu - sprawozdanie
 subtitle: 24. Odbiornik pilota IR
 author: Krzysztof Dziembała
-date: "2024-08-10"
+date: "2024-09-06"
 
 # Pandoc document settings
 standalone: true
